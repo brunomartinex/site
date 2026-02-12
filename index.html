@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAL. | Sweatshirt Season</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'sans-serif'],
+                        'display': ['Syne', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'real-black': '#050505',
+                        'real-gray': '#1c1c1c',
+                        'real-gold': '#dcb178',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CURSOR PERSONALIZADO */
+        body {
+            cursor: none; /* Esconde o cursor padrão */
+        }
+        
+        /* O Ponto Central */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference; /* Efeito de inversão de cor */
+        }
+
+        /* O Círculo Fluido (Outline) */
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        /* Estado Hover (Quando passa em links/botões) */
+        body.hovering .cursor-outline {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 1);
+            border-color: transparent;
+            mix-blend-mode: exclusion;
+        }
+
+        /* Em telemóveis, restaurar cursor normal */
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+
+        /* Resto do estilo */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            z-index: 50;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 25s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .modal-open { overflow: hidden; }
+        #productModal { transition: opacity 0.3s ease-in-out; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #dcb178; }
+    </style>
+</head>
+<body class="bg-real-black text-white antialiased overflow-x-hidden selection:bg-real-gold selection:text-black">
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <div class="noise-overlay"></div>
+
+    <nav class="fixed w-full z-40 top-0 left-0 px-6 py-4 flex justify-between items-center mix-blend-screen bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div class="w-1/3 md:hidden">
+            <i class="fa-solid fa-bars text-xl text-real-gold hoverable"></i>
+        </div>
+
+        <div class="hidden md:flex w-1/3 gap-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-400">
+            <a href="#drop" class="hover:text-real-gold transition hoverable">Hoodies</a>
+            <a href="#about" class="hover:text-real-gold transition hoverable">Manifesto</a>
+        </div>
+
+        <div class="w-1/3 flex justify-center">
+            <a href="#" class="hoverable">
+                <img src="logo.jpeg" class="h-20 md:h-24 object-contain hover:scale-105 transition duration-500 drop-shadow-lg" alt="REAL. Logo">
+            </a>
+        </div>
+
+        <div class="w-1/3 flex justify-end gap-6 items-center">
+            <button class="relative group hoverable" onclick="alert('Launch day only.')">
+                <i class="fa-solid fa-bag-shopping text-xl group-hover:text-real-gold transition"></i>
+                <span class="absolute -top-1 -right-2 bg-real-gold text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1571455786673-9d9d6c194f90?q=80&w=2070&auto=format&fit=crop" 
+                 class="w-full h-full object-cover opacity-40 grayscale" alt="Background">
+            <div class="absolute inset-0 bg-gradient-to-t from-real-black via-real-black/50 to-black/80"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 mt-10">
+            <p class="text-xs md:text-sm uppercase tracking-[0.5em] mb-8 text-real-gold animate-pulse">Heavyweight Collection</p>
+            
+            <div id="countdown" class="flex flex-wrap justify-center gap-6 md:gap-16 font-display text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none mb-12 hoverable">
+                <div class="flex flex-col items-center">
+                    <span id="days">10</span>
+                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Days</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span id="hours">00</span>
+                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Hours</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span id="minutes">00</span>
+                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Mins</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span id="seconds" class="text-real-gold">00</span>
+                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Secs</span>
+                </div>
+            </div>
+
+            <a href="#drop" class="hoverable inline-block border border-white/30 bg-white/5 backdrop-blur-sm text-white px-12 py-4 uppercase font-bold tracking-[0.2em] text-xs hover:bg-real-gold hover:border-real-gold hover:text-black transition duration-300">
+                View Collection
+            </a>
+        </div>
+    </header>
+
+    <section class="bg-real-gold text-black py-4 border-y border-black overflow-hidden relative z-20 -rotate-1 scale-[1.02]">
+        <div class="marquee-container font-display text-4xl md:text-6xl font-black uppercase tracking-tighter">
+            <div class="marquee-content">
+                Real. Comfort &nbsp;•&nbsp; Heavyweight Cotton &nbsp;•&nbsp; Built for Life &nbsp;•&nbsp; No Shortcuts &nbsp;•&nbsp; Real. Comfort &nbsp;•&nbsp; Heavyweight Cotton &nbsp;•&nbsp; Built for Life &nbsp;•&nbsp; No Shortcuts &nbsp;•&nbsp;
+            </div>
+        </div>
+    </section>
+
+    <section id="drop" class="py-24 px-6 max-w-[1600px] mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
+            <div>
+                <span class="text-real-gold text-xs font-bold tracking-widest uppercase mb-2 block">Drop 001</span>
+                <h2 class="font-display text-4xl md:text-5xl uppercase text-white">The Hoodie Archives</h2>
+            </div>
+            <p class="text-gray-500 text-xs max-w-sm text-right mt-4 md:mt-0 leading-relaxed">
+                Focados no essencial. <br>Apenas sweatshirts de gramagem alta, cortes largos e durabilidade extrema.
+            </p>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12">
+            </div>
+    </section>
+
+    <section id="about" class="py-32 px-6 bg-real-gray relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-black/30 transform skew-x-12 translate-x-1/4"></div>
+        <div class="max-w-4xl mx-auto relative z-10 text-center">
+            <img src="logo.jpeg" class="h-24 mx-auto mb-8 opacity-80 mix-blend-screen" alt="Real Bird">
+            <h2 class="font-display text-5xl md:text-7xl uppercase mb-8 leading-[0.9]">
+                Love in <br><span class="text-real-gold">Modern Times</span>.
+            </h2>
+            <div class="space-y-6 text-gray-400 font-sans text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+                <p>Vivemos numa era de conexões wi-fi fortes e laços humanos fracos. A <strong class="text-white">REAL.</strong> nasceu dessa ironia.</p>
+                <p>O nosso pássaro acorrentado representa a liberdade que procuramos mas que a sociedade digital nos nega. Não vendemos apenas roupa; vendemos o uniforme para quem ainda ousa sentir algo real.</p>
+                <p class="text-real-gold font-bold uppercase tracking-widest text-sm pt-4">Be Real. Feel Real.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/10 bg-black pt-24 pb-10 px-6">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                <div>
+                    <h2 class="font-display text-6xl md:text-8xl font-black uppercase leading-[0.8] text-white">Join the<br>Cult.</h2>
+                </div>
+                <div class="flex flex-col justify-end">
+                    <form class="flex border-b border-white/30 pb-4 group focus-within:border-real-gold transition hoverable">
+                        <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent w-full outline-none text-xl placeholder:text-gray-600 font-sans text-white uppercase cursor-none">
+                        <button type="submit" class="uppercase font-bold text-gray-500 group-focus-within:text-real-gold transition hoverable">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] uppercase font-bold tracking-[0.2em] text-gray-600">
+                <p>&copy; 2024 REAL. CLOTHING BRAND</p>
+                <div class="flex gap-8 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-real-gold transition hoverable">Instagram</a>
+                    <a href="#" class="hover:text-real-gold transition hoverable">TikTok</a>
+                    <a href="#" class="hover:text-real-gold transition hoverable">Legal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="productModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[900px] h-full md:h-auto bg-real-black border border-white/10 shadow-2xl flex flex-col md:flex-row overflow-hidden">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 text-white hover:text-real-gold text-2xl hoverable">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-full md:w-1/2 h-1/2 md:h-[600px] relative bg-real-gray">
+                <img id="modalImg" src="" class="w-full h-full object-cover" alt="Detail">
+                <div class="absolute bottom-4 left-4">
+                    <span id="modalTag" class="bg-real-gold text-black text-[10px] font-bold px-2 py-1 uppercase"></span>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between">
+                <div>
+                    <h2 id="modalTitle" class="font-display text-3xl md:text-4xl uppercase mb-2"></h2>
+                    <p id="modalPrice" class="font-mono text-xl text-real-gold mb-6"></p>
+                    <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-real-gold pl-4"></p>
+                    <div class="mb-8">
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Select Size</span>
+                        <div class="flex gap-2">
+                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">S</button>
+                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">M</button>
+                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">L</button>
+                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">XL</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="hoverable w-full bg-white text-black py-4 uppercase font-bold tracking-widest hover:bg-real-gold transition duration-300">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. LÓGICA DO CURSOR FLUIDO ---
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+
+        // Movimento do Rato
+        window.addEventListener("mousemove", function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot mexe instantâneo
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline mexe com atraso (animado via CSS transition ou animate)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Efeito Hover em elementos clicáveis
+        const hoverables = document.querySelectorAll('a, button, .hoverable, .group');
+        
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+
+        // --- 2. DADOS DOS PRODUTOS (URLS ATUALIZADAS E UNICAS) ---
+        const products = [
+            {
+                id: 1,
+                title: "Broken Heart Hoodie",
+                price: "€75.00",
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1887&auto=format&fit=crop", 
+                tag: "Bestseller",
+                desc: "Algodão heavyweight 450GSM. Corte oversized para esconder os sentimentos. Estampado 'Crack' no peito."
+            },
+            {
+                id: 2,
+                title: "Phantom Zip-Up",
+                price: "€85.00",
+                image: "https://images.unsplash.com/photo-1551804130-97cc17513d78?q=80&w=1964&auto=format&fit=crop", 
+                tag: "New In",
+                desc: "Zip-up hoodie clássico. Fecho YKK metálico. Perfeito para camadas ou para usar sozinho."
+            },
+            {
+                id: 3,
+                title: "Real. Crewneck",
+                price: "€65.00",
+                image: "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?q=80&w=2072&auto=format&fit=crop", 
+                tag: "Essential",
+                desc: "A peça fundamental. Sem capuz, gola subida e punhos reforçados. O logo REAL. bordado subtilmente."
+            },
+            {
+                id: 4,
+                title: "Distressed Pullover",
+                price: "€80.00",
+                image: "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?q=80&w=1887&auto=format&fit=crop", 
+                tag: "Limited",
+                desc: "Acabamento 'destruído' à mão. Cada rasgão é único. Tingido com pigmentos naturais."
+            },
+            {
+                id: 5,
+                title: "Midnight Fleece",
+                price: "€90.00",
+                image: "https://images.unsplash.com/photo-1515347619252-60a6bf4fffce?q=80&w=1925&auto=format&fit=crop", 
+                tag: "Premium",
+                desc: "O nosso hoodie mais quente. Interior cardado ultra-suave. Capuz duplo estruturado."
+            },
+            {
+                id: 6,
+                title: "No-Signal Graphic",
+                price: "€78.00",
+                image: "https://images.unsplash.com/photo-1509942774463-acf339cf87d5?q=80&w=1887&auto=format&fit=crop", 
+                tag: "Graphic",
+                desc: "Estampado nas costas com tinta de alta densidade (puff print). Design inspirado na estática."
+            },
+            {
+                id: 7,
+                title: "Raw Hem Crop",
+                price: "€70.00",
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop", 
+                tag: "Trending",
+                desc: "Bainha cortada a fio (raw hem) para um look mais agressivo. Ombros caídos e mangas extra longas."
+            },
+            {
+                id: 8,
+                title: "Archive Washed",
+                price: "€82.00",
+                image: "https://images.unsplash.com/photo-1578587017763-9233113f84ca?q=80&w=1888&auto=format&fit=crop", 
+                tag: "Vintage",
+                desc: "Processo de lavagem de 4 horas para atingir o preto 'carvão' perfeito. Look vintage autêntico."
+            }
+        ];
+
+        // --- RENDERIZAR GRID ---
+        const grid = document.getElementById('product-grid');
+        products.forEach(product => {
+            const html = `
+                <div class="group cursor-none hoverable" onclick="openModal(${product.id})">
+                    <div class="relative overflow-hidden bg-real-gray aspect-[3/4] mb-5 border border-white/5">
+                        <span class="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white border border-white/20 text-[9px] font-bold px-2 py-1 uppercase z-10">${product.tag}</span>
+                        <img src="${product.image}" class="w-full h-full object-cover transition duration-700 transform group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="${product.title}">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="bg-real-gold text-black font-bold uppercase text-xs px-6 py-3 tracking-widest transform translate-y-4 group-hover:translate-y-0 transition duration-300">Quick View</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <h3 class="font-bold text-base uppercase tracking-wide group-hover:text-real-gold transition">${product.title}</h3>
+                        <div class="flex justify-between items-center">
+                            <p class="text-gray-500 text-xs">Heavyweight Cotton</p>
+                            <span class="font-mono text-sm text-white">${product.price}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += html;
+        });
+
+        // --- MODAL & COUNTDOWN (Mesma lógica) ---
+        function openModal(id) {
+            const product = products.find(p => p.id === id);
+            if(!product) return;
+            document.getElementById('modalImg').src = product.image;
+            document.getElementById('modalTag').innerText = product.tag;
+            document.getElementById('modalTitle').innerText = product.title;
+            document.getElementById('modalPrice').innerText = product.price;
+            document.getElementById('modalDesc').innerText = product.desc;
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.addEventListener('keydown', function(event) { if (event.key === "Escape") closeModal(); });
+
+        const tenDaysFromNow = new Date().getTime() + (10 * 24 * 60 * 60 * 1000); 
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = tenDaysFromNow - now;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
