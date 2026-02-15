@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REAL. | Sweatshirt Season</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>REAL. | Love in Modern Times</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -20,12 +20,37 @@
                     fontFamily: {
                         'sans': ['Space Grotesk', 'sans-serif'],
                         'display': ['Syne', 'sans-serif'],
-                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['Share Tech Mono', 'monospace'],
                     },
                     colors: {
                         'real-black': '#050505',
-                        'real-gray': '#1c1c1c',
+                        'real-gray': '#111111',
                         'real-gold': '#dcb178',
+                    },
+                    animation: {
+                        'glitch': 'glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite',
+                        'stamp': 'stamp 0.15s ease-out forwards',
+                        'receipt-slide': 'receiptSlide 4s ease-in-out forwards',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
+                            '100%': { transform: 'translate(0)' }
+                        },
+                        stamp: {
+                            '0%': { transform: 'translate(-50%, -50%) scale(2) rotate(var(--rot))', opacity: '0' },
+                            '100%': { transform: 'translate(-50%, -50%) scale(1) rotate(var(--rot))', opacity: '1' }
+                        },
+                        receiptSlide: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '10%': { transform: 'translateY(20px)' },
+                            '80%': { transform: 'translateY(20px)', opacity: '1' },
+                            '100%': { transform: 'translateY(-100%)', opacity: '0' }
+                        }
                     }
                 }
             }
@@ -33,410 +58,520 @@
     </script>
 
     <style>
-        /* CURSOR PERSONALIZADO */
-        body {
-            cursor: none; /* Esconde o cursor padrão */
-        }
+        /* --- CORE SETTINGS --- */
+        body { cursor: none; background-color: #050505; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; }
         
-        /* O Ponto Central */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference; /* Efeito de inversão de cor */
-        }
-
-        /* O Círculo Fluido (Outline) */
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9998;
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            mix-blend-mode: difference;
-        }
-
-        /* Estado Hover (Quando passa em links/botões) */
-        body.hovering .cursor-outline {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(255, 255, 255, 1);
-            border-color: transparent;
-            mix-blend-mode: exclusion;
-        }
-
-        /* Em telemóveis, restaurar cursor normal */
-        @media (max-width: 768px) {
+        /* MOBILE OPTIMIZATIONS */
+        @media (hover: none) and (pointer: coarse) {
             body { cursor: auto; }
-            .cursor-dot, .cursor-outline { display: none; }
+            .cursor-dot, .cursor-outline { display: none !important; }
+            .product-img { filter: grayscale(0%); } /* Mostra cor logo no mobile */
         }
 
-        /* Resto do estilo */
+        /* X-RAY MODE */
+        html.xray-mode { filter: invert(1) hue-rotate(180deg); }
+        html { transition: filter 0.2s ease; }
+
+        /* --- CURSOR --- */
+        .cursor-dot {
+            width: 4px; height: 4px; background-color: #dcb178;
+            border-radius: 50%; position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 1px solid rgba(220, 177, 120, 0.3);
+            border-radius: 50%; position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
+            transition: width 0.1s, height 0.1s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; background-color: rgba(220, 177, 120, 0.1);
+            border-color: #dcb178; mix-blend-mode: exclusion;
+        }
+
+        /* --- STROBE HOVER --- */
+        .product-img { transition: transform 0.5s ease; filter: grayscale(100%); }
+        .group:hover .product-img {
+            animation: flashZoom 0.6s infinite alternate;
+            filter: grayscale(0%) contrast(120%);
+        }
+        @keyframes flashZoom {
+            0% { transform: scale(1); filter: grayscale(0%); }
+            25% { transform: scale(1.02); filter: invert(10%); }
+            50% { transform: scale(1); filter: contrast(150%); }
+            100% { transform: scale(1.05); filter: grayscale(0%); }
+        }
+
+        /* --- SCROLLYTELLING --- */
+        .manifesto-line {
+            opacity: 0.1; transform: translateY(20px); filter: blur(4px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .manifesto-line.active { opacity: 1; transform: translateY(0); filter: blur(0); color: white; }
+
+        /* --- STICKERS --- */
+        .sticker {
+            position: absolute; pointer-events: none; z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+        }
+
+        /* --- RECEIPT (TICKET) --- */
+        .receipt-paper {
+            background: #fff;
+            background-image: linear-gradient(#eee .1rem, transparent .1rem);
+            background-size: 100% 1.2rem;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+            mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+
+        /* --- UTILS --- */
+        #loader { transition: opacity 0.8s ease-out, visibility 0.8s; }
         .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.05;
-            z-index: 50;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+            background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.07; z-index: 50;
         }
-
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
+        .secret-bird {
+            position: absolute; width: 30px; opacity: 0; cursor: pointer; z-index: 40;
+            transition: opacity 0.3s; filter: invert(1);
         }
-        .marquee-content {
-            display: inline-block;
-            animation: scroll 25s linear infinite;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .secret-bird:hover { opacity: 1; }
+        .glitch-reward { animation: glitch 0.3s infinite; }
         
-        .modal-open { overflow: hidden; }
-        #productModal { transition: opacity 0.3s ease-in-out; }
-        
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #dcb178; }
+
+        /* MOBILE MENU TRANSITION */
+        #mobile-menu { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
 </head>
-<body class="bg-real-black text-white antialiased overflow-x-hidden selection:bg-real-gold selection:text-black">
+<body class="bg-real-black text-white antialiased overflow-x-hidden">
+
+    <div id="sound-indicator" class="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-[9px] font-mono text-gray-600 uppercase opacity-0 transition duration-1000 pointer-events-none">
+        <span>Audio System</span>
+        <div class="flex gap-1 h-3 items-end">
+            <span class="w-[2px] h-full bg-real-gold animate-pulse"></span>
+            <span class="w-[2px] h-2/3 bg-real-gold animate-pulse delay-75"></span>
+            <span class="w-[2px] h-1/2 bg-real-gold animate-pulse delay-150"></span>
+        </div>
+    </div>
 
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-outline" id="cursor-outline"></div>
-
     <div class="noise-overlay"></div>
 
-    <nav class="fixed w-full z-40 top-0 left-0 px-6 py-4 flex justify-between items-center mix-blend-screen bg-black/80 backdrop-blur-md border-b border-white/5">
+    <div id="receipt-area" class="fixed top-0 right-0 md:right-10 left-0 md:left-auto z-[250] w-full md:w-64 pointer-events-none flex justify-center md:block">
+        </div>
+
+    <div id="loader" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center">
+        <div class="relative">
+            <img src="logo.jpeg" class="h-20 animate-pulse mb-6 opacity-80" alt="Loading">
+        </div>
+        <div class="font-mono text-real-gold text-[10px] tracking-[0.5em] uppercase flex flex-col items-center gap-2">
+            <span id="loader-text">Initializing System</span>
+            <span id="loader-percent">0%</span>
+        </div>
+        <button id="enter-btn" class="hidden mt-8 border border-white/20 hover:border-real-gold text-white hover:text-real-gold px-8 py-3 text-[10px] uppercase tracking-widest transition duration-300">
+            [ Click to Enter ]
+        </button>
+    </div>
+
+    <nav class="fixed w-full z-40 top-0 left-0 px-6 py-4 flex justify-between items-center mix-blend-difference bg-transparent backdrop-blur-[2px]">
         <div class="w-1/3 md:hidden">
-            <i class="fa-solid fa-bars text-xl text-real-gold hoverable"></i>
+            <button onclick="toggleMobileMenu()" class="text-xl text-real-gold hoverable p-2">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
 
-        <div class="hidden md:flex w-1/3 gap-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-400">
-            <a href="#drop" class="hover:text-real-gold transition hoverable">Hoodies</a>
-            <a href="#about" class="hover:text-real-gold transition hoverable">Manifesto</a>
+        <div class="hidden md:flex w-1/3 gap-8 text-[10px] uppercase tracking-[0.25em] font-bold text-gray-400">
+            <a href="#drop" class="hover:text-real-gold transition hoverable" data-sound="hover">Collection</a>
+            <a href="#about" class="hover:text-real-gold transition hoverable" data-sound="hover">Manifesto</a>
         </div>
-
+        
         <div class="w-1/3 flex justify-center">
-            <a href="#" class="hoverable">
-                <img src="logo.jpeg" class="h-20 md:h-24 object-contain hover:scale-105 transition duration-500 drop-shadow-lg" alt="REAL. Logo">
+            <a href="#" class="hoverable group">
+                <img src="logo.jpeg" class="h-12 md:h-16 object-contain drop-shadow-[0_0_10px_rgba(220,177,120,0.5)]" alt="REAL.">
             </a>
         </div>
-
+        
         <div class="w-1/3 flex justify-end gap-6 items-center">
-            <button class="relative group hoverable" onclick="alert('Launch day only.')">
-                <i class="fa-solid fa-bag-shopping text-xl group-hover:text-real-gold transition"></i>
-                <span class="absolute -top-1 -right-2 bg-real-gold text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
+            <div class="hidden md:flex flex-col items-end text-[9px] font-mono text-gray-500">
+                <span class="uppercase tracking-widest">ID: <span id="member-id" class="text-real-gold">...</span></span>
+            </div>
+            <button class="hoverable p-2" data-sound="click">
+                <i class="fa-solid fa-bag-shopping text-lg text-gray-400 hover:text-real-gold transition"></i>
             </button>
         </div>
     </nav>
 
+    <div id="mobile-menu" class="fixed inset-0 z-[45] bg-black transform -translate-x-full flex flex-col items-center justify-center gap-10">
+        <button onclick="toggleMobileMenu()" class="absolute top-6 left-6 text-real-gold text-2xl p-2">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <a href="#drop" onclick="toggleMobileMenu()" class="font-display text-4xl text-white hover:text-real-gold uppercase">Collection</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="font-display text-4xl text-white hover:text-real-gold uppercase">Manifesto</a>
+        <div class="text-center mt-10">
+            <p class="text-gray-500 text-[10px] uppercase tracking-widest mb-2">Member ID</p>
+            <p id="mobile-member-id" class="font-mono text-real-gold">...</p>
+        </div>
+    </div>
+
+    <img src="logo.jpeg" class="secret-bird top-[20%] left-[10%]" onclick="foundBird(this)">
+
     <header class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1571455786673-9d9d6c194f90?q=80&w=2070&auto=format&fit=crop" 
-                 class="w-full h-full object-cover opacity-40 grayscale" alt="Background">
-            <div class="absolute inset-0 bg-gradient-to-t from-real-black via-real-black/50 to-black/80"></div>
+                 class="w-full h-full object-cover opacity-30 grayscale contrast-125 scale-105 animate-[pulse_10s_infinite]" alt="Background">
+            <div class="absolute inset-0 bg-gradient-to-t from-real-black via-real-black/60 to-transparent"></div>
         </div>
 
         <div class="relative z-10 text-center px-4 mt-10">
-            <p class="text-xs md:text-sm uppercase tracking-[0.5em] mb-8 text-real-gold animate-pulse">Heavyweight Collection</p>
+            <div class="inline-flex items-center gap-2 border border-white/10 px-4 py-1 rounded-full bg-black/50 mb-8 backdrop-blur-md">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-[9px] uppercase tracking-[0.3em] text-gray-300">Live Server</span>
+            </div>
             
-            <div id="countdown" class="flex flex-wrap justify-center gap-6 md:gap-16 font-display text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none mb-12 hoverable">
-                <div class="flex flex-col items-center">
-                    <span id="days">10</span>
-                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Days</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span id="hours">00</span>
-                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Hours</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span id="minutes">00</span>
-                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Mins</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <span id="seconds" class="text-real-gold">00</span>
-                    <span class="text-[10px] font-sans font-bold tracking-widest uppercase text-gray-500 mt-4">Secs</span>
-                </div>
+            <div id="countdown" class="flex flex-wrap justify-center gap-6 md:gap-16 font-display text-4xl md:text-9xl font-black tracking-tighter leading-none mb-12 select-none hoverable" data-sound="hover">
+                <div class="flex flex-col items-center"><span id="days">10</span><span class="text-[9px] font-sans text-gray-600 mt-2 tracking-widest">DAYS</span></div>
+                <div class="flex flex-col items-center"><span id="hours">00</span><span class="text-[9px] font-sans text-gray-600 mt-2 tracking-widest">HRS</span></div>
+                <div class="flex flex-col items-center"><span id="minutes">00</span><span class="text-[9px] font-sans text-gray-600 mt-2 tracking-widest">MINS</span></div>
+                <div class="flex flex-col items-center"><span id="seconds" class="text-real-gold">00</span><span class="text-[9px] font-sans text-gray-600 mt-2 tracking-widest">SECS</span></div>
             </div>
 
-            <a href="#drop" class="hoverable inline-block border border-white/30 bg-white/5 backdrop-blur-sm text-white px-12 py-4 uppercase font-bold tracking-[0.2em] text-xs hover:bg-real-gold hover:border-real-gold hover:text-black transition duration-300">
-                View Collection
+            <a href="#drop" class="hoverable relative inline-block group border border-white/30 px-10 py-4 overflow-hidden" data-sound="click">
+                <span class="absolute inset-0 bg-real-gold transform translate-y-full group-hover:translate-y-0 transition-transform duration-200 ease-out"></span>
+                <span class="relative font-bold text-[10px] tracking-[0.3em] uppercase group-hover:text-black transition-colors duration-200">Enter The Void</span>
             </a>
+            <p class="mt-4 text-[8px] uppercase tracking-widest text-gray-600 animate-pulse hidden md:block">( Long Press for X-Ray Vision )</p>
         </div>
     </header>
 
-    <section class="bg-real-gold text-black py-4 border-y border-black overflow-hidden relative z-20 -rotate-1 scale-[1.02]">
+    <section class="bg-real-gold text-black py-3 border-y border-black overflow-hidden relative z-20 -rotate-1 scale-[1.01]">
         <div class="marquee-container font-display text-4xl md:text-6xl font-black uppercase tracking-tighter">
-            <div class="marquee-content">
-                Real. Comfort &nbsp;•&nbsp; Heavyweight Cotton &nbsp;•&nbsp; Built for Life &nbsp;•&nbsp; No Shortcuts &nbsp;•&nbsp; Real. Comfort &nbsp;•&nbsp; Heavyweight Cotton &nbsp;•&nbsp; Built for Life &nbsp;•&nbsp; No Shortcuts &nbsp;•&nbsp;
+            <div class="marquee-content animate-[scroll_20s_linear_infinite]">
+                Real. Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp; Real. Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp;
             </div>
         </div>
     </section>
 
-    <section id="drop" class="py-24 px-6 max-w-[1600px] mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
-            <div>
-                <span class="text-real-gold text-xs font-bold tracking-widest uppercase mb-2 block">Drop 001</span>
-                <h2 class="font-display text-4xl md:text-5xl uppercase text-white">The Hoodie Archives</h2>
-            </div>
-            <p class="text-gray-500 text-xs max-w-sm text-right mt-4 md:mt-0 leading-relaxed">
-                Focados no essencial. <br>Apenas sweatshirts de gramagem alta, cortes largos e durabilidade extrema.
+    <section id="drop" class="py-24 px-6 max-w-[1600px] mx-auto min-h-screen relative">
+        <img src="logo.jpeg" class="secret-bird top-[50%] right-[5%]" onclick="foundBird(this)">
+
+        <div class="flex justify-between items-end mb-20 border-b border-white/10 pb-6">
+            <h2 class="font-display text-4xl md:text-6xl uppercase text-white">The Drop.</h2>
+            <p class="text-gray-500 text-[10px] uppercase tracking-widest text-right hidden md:block">
+                System: Ready<br>Stock: Low
             </p>
         </div>
 
-        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12">
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-16">
             </div>
     </section>
 
-    <section id="about" class="py-32 px-6 bg-real-gray relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-black/30 transform skew-x-12 translate-x-1/4"></div>
+    <section id="about" class="py-40 px-6 bg-real-black relative overflow-hidden min-h-screen flex items-center justify-center">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-real-gray/20 via-black to-black opacity-50"></div>
+        
         <div class="max-w-4xl mx-auto relative z-10 text-center">
-            <img src="logo.jpeg" class="h-24 mx-auto mb-8 opacity-80 mix-blend-screen" alt="Real Bird">
-            <h2 class="font-display text-5xl md:text-7xl uppercase mb-8 leading-[0.9]">
-                Love in <br><span class="text-real-gold">Modern Times</span>.
+            <img src="logo.jpeg" class="h-24 mx-auto mb-10 opacity-100 invert-0" alt="Bird">
+            
+            <h2 class="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-white mb-12">
+                LOVE IN <br><span class="text-real-gold">MODERN TIMES.</span>
             </h2>
-            <div class="space-y-6 text-gray-400 font-sans text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-                <p>Vivemos numa era de conexões wi-fi fortes e laços humanos fracos. A <strong class="text-white">REAL.</strong> nasceu dessa ironia.</p>
-                <p>O nosso pássaro acorrentado representa a liberdade que procuramos mas que a sociedade digital nos nega. Não vendemos apenas roupa; vendemos o uniforme para quem ainda ousa sentir algo real.</p>
-                <p class="text-real-gold font-bold uppercase tracking-widest text-sm pt-4">Be Real. Feel Real.</p>
+            
+            <div class="space-y-8 font-sans text-lg md:text-xl leading-relaxed text-gray-400 max-w-3xl mx-auto reveal-text">
+                <p class="manifesto-line">We live in an era of strong Wi-Fi connections and weak human bonds.</p>
+                <p class="manifesto-line"><strong class="text-white">REAL.</strong> was born from this irony.</p>
+                <p class="manifesto-line">Our chained bird represents the freedom we seek but that the digital society denies us.</p>
+                <p class="manifesto-line text-real-gold font-bold uppercase tracking-[0.3em] text-sm pt-8 animate-pulse">BE REAL. FEEL REAL.</p>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-white/10 bg-black pt-24 pb-10 px-6">
+    <footer class="border-t border-white/10 bg-black pt-24 pb-10 px-6 relative">
+        <img src="logo.jpeg" class="secret-bird bottom-[20%] left-[50%]" onclick="foundBird(this)">
+        <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[8px] text-gray-800 uppercase tracking-widest w-full text-center">Tap background to mark territory</p>
+
         <div class="max-w-[1600px] mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-                <div>
-                    <h2 class="font-display text-6xl md:text-8xl font-black uppercase leading-[0.8] text-white">Join the<br>Cult.</h2>
-                </div>
+                <h2 class="font-display text-6xl md:text-9xl font-black uppercase leading-[0.8] text-white tracking-tighter opacity-20 hover:opacity-100 transition duration-700 cursor-default">
+                    The<br>Cult.
+                </h2>
                 <div class="flex flex-col justify-end">
                     <form class="flex border-b border-white/30 pb-4 group focus-within:border-real-gold transition hoverable">
-                        <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent w-full outline-none text-xl placeholder:text-gray-600 font-sans text-white uppercase cursor-none">
-                        <button type="submit" class="uppercase font-bold text-gray-500 group-focus-within:text-real-gold transition hoverable">Subscribe</button>
+                        <input type="email" placeholder="JOIN THE LIST" class="bg-transparent w-full outline-none text-xl placeholder:text-gray-700 font-sans text-white uppercase cursor-none">
+                        <button type="submit" class="uppercase font-bold text-gray-500 group-focus-within:text-real-gold transition hoverable" data-sound="click">Submit</button>
                     </form>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] uppercase font-bold tracking-[0.2em] text-gray-600">
-                <p>&copy; 2024 REAL. CLOTHING BRAND</p>
-                <div class="flex gap-8 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-real-gold transition hoverable">Instagram</a>
-                    <a href="#" class="hover:text-real-gold transition hoverable">TikTok</a>
-                    <a href="#" class="hover:text-real-gold transition hoverable">Legal</a>
+            <div class="flex justify-between items-center text-[10px] uppercase font-bold tracking-[0.2em] text-gray-600">
+                <p>&copy; 2026 REAL. EST.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-real-gold transition hoverable" data-sound="hover">IG</a>
+                    <a href="#" class="hover:text-real-gold transition hoverable" data-sound="hover">TK</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <div id="productModal" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="absolute inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[900px] h-full md:h-auto bg-real-black border border-white/10 shadow-2xl flex flex-col md:flex-row overflow-hidden">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 text-white hover:text-real-gold text-2xl hoverable">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="w-full md:w-1/2 h-1/2 md:h-[600px] relative bg-real-gray">
+    <div id="rewardModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/90 backdrop-blur-md">
+        <div class="text-center p-10 border border-real-gold bg-black mx-4">
+            <h2 class="font-display text-4xl md:text-6xl text-real-gold mb-4 glitch-reward">UNLOCKED</h2>
+            <p class="text-gray-400 text-xs uppercase tracking-widest mb-6">You found the 3 birds. Here is your reward.</p>
+            <div class="bg-white text-black font-mono text-xl md:text-2xl font-bold py-4 px-8 mb-6 select-all">CODE: REAL30</div>
+            <button onclick="document.getElementById('rewardModal').classList.add('hidden')" class="text-xs uppercase hover:text-real-gold underline hoverable">Close System</button>
+        </div>
+    </div>
+
+    <div id="productModal" class="fixed inset-0 z-[150] hidden">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[1000px] h-full md:h-[600px] bg-real-black border border-white/10 flex flex-col md:flex-row overflow-hidden shadow-2xl" id="modalContent">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 text-white hover:text-real-gold text-2xl hoverable" data-sound="click"><i class="fa-solid fa-xmark"></i></button>
+            <div class="w-full md:w-1/2 h-1/2 md:h-full relative bg-real-gray">
                 <img id="modalImg" src="" class="w-full h-full object-cover" alt="Detail">
-                <div class="absolute bottom-4 left-4">
-                    <span id="modalTag" class="bg-real-gold text-black text-[10px] font-bold px-2 py-1 uppercase"></span>
-                </div>
+                <span id="modalTag" class="absolute top-4 left-4 bg-real-gold text-black text-[10px] font-bold px-3 py-1 uppercase tracking-widest"></span>
             </div>
-            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between">
+            <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-between bg-black">
                 <div>
                     <h2 id="modalTitle" class="font-display text-3xl md:text-4xl uppercase mb-2"></h2>
-                    <p id="modalPrice" class="font-mono text-xl text-real-gold mb-6"></p>
-                    <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-real-gold pl-4"></p>
-                    <div class="mb-8">
-                        <span class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Select Size</span>
-                        <div class="flex gap-2">
-                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">S</button>
-                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">M</button>
-                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">L</button>
-                            <button class="hoverable w-10 h-10 border border-white/20 hover:border-real-gold hover:text-real-gold flex items-center justify-center text-xs font-bold transition">XL</button>
-                        </div>
+                    <p id="modalPrice" class="font-mono text-2xl text-real-gold mb-6"></p>
+                    <p id="modalDesc" class="text-gray-400 text-sm leading-relaxed border-l border-real-gold pl-4 mb-6"></p>
+                    <div class="flex gap-2">
+                        <button class="w-10 h-10 border border-white/20 hover:bg-real-gold hover:text-black hoverable transition text-xs font-bold" data-sound="click">S</button>
+                        <button class="w-10 h-10 border border-white/20 hover:bg-real-gold hover:text-black hoverable transition text-xs font-bold" data-sound="click">M</button>
+                        <button class="w-10 h-10 border border-white/20 hover:bg-real-gold hover:text-black hoverable transition text-xs font-bold" data-sound="click">L</button>
                     </div>
                 </div>
-                <button class="hoverable w-full bg-white text-black py-4 uppercase font-bold tracking-widest hover:bg-real-gold transition duration-300">
-                    Add to Cart
-                </button>
+                <button onclick="triggerReceipt()" class="w-full bg-white text-black py-4 uppercase font-bold tracking-widest hover:bg-real-gold transition duration-300 hoverable mt-4 md:mt-0" data-sound="click">Add to Cart</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. LÓGICA DO CURSOR FLUIDO ---
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorOutline = document.getElementById("cursor-outline");
+        /* --- 1. AUDIO SYSTEM --- */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let soundEnabled = false;
 
-        // Movimento do Rato
-        window.addEventListener("mousemove", function(e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
+        function playSound(type) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-            // Dot mexe instantâneo
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Outline mexe com atraso (animado via CSS transition ou animate)
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-        });
-
-        // Efeito Hover em elementos clicáveis
-        const hoverables = document.querySelectorAll('a, button, .hoverable, .group');
-        
-        hoverables.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                document.body.classList.add('hovering');
-            });
-            el.addEventListener('mouseleave', () => {
-                document.body.classList.remove('hovering');
-            });
-        });
-
-
-        // --- 2. DADOS DOS PRODUTOS (URLS ATUALIZADAS E UNICAS) ---
-        const products = [
-            {
-                id: 1,
-                title: "Broken Heart Hoodie",
-                price: "€75.00",
-                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1887&auto=format&fit=crop", 
-                tag: "Bestseller",
-                desc: "Algodão heavyweight 450GSM. Corte oversized para esconder os sentimentos. Estampado 'Crack' no peito."
-            },
-            {
-                id: 2,
-                title: "Phantom Zip-Up",
-                price: "€85.00",
-                image: "https://images.unsplash.com/photo-1551804130-97cc17513d78?q=80&w=1964&auto=format&fit=crop", 
-                tag: "New In",
-                desc: "Zip-up hoodie clássico. Fecho YKK metálico. Perfeito para camadas ou para usar sozinho."
-            },
-            {
-                id: 3,
-                title: "Real. Crewneck",
-                price: "€65.00",
-                image: "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?q=80&w=2072&auto=format&fit=crop", 
-                tag: "Essential",
-                desc: "A peça fundamental. Sem capuz, gola subida e punhos reforçados. O logo REAL. bordado subtilmente."
-            },
-            {
-                id: 4,
-                title: "Distressed Pullover",
-                price: "€80.00",
-                image: "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?q=80&w=1887&auto=format&fit=crop", 
-                tag: "Limited",
-                desc: "Acabamento 'destruído' à mão. Cada rasgão é único. Tingido com pigmentos naturais."
-            },
-            {
-                id: 5,
-                title: "Midnight Fleece",
-                price: "€90.00",
-                image: "https://images.unsplash.com/photo-1515347619252-60a6bf4fffce?q=80&w=1925&auto=format&fit=crop", 
-                tag: "Premium",
-                desc: "O nosso hoodie mais quente. Interior cardado ultra-suave. Capuz duplo estruturado."
-            },
-            {
-                id: 6,
-                title: "No-Signal Graphic",
-                price: "€78.00",
-                image: "https://images.unsplash.com/photo-1509942774463-acf339cf87d5?q=80&w=1887&auto=format&fit=crop", 
-                tag: "Graphic",
-                desc: "Estampado nas costas com tinta de alta densidade (puff print). Design inspirado na estática."
-            },
-            {
-                id: 7,
-                title: "Raw Hem Crop",
-                price: "€70.00",
-                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop", 
-                tag: "Trending",
-                desc: "Bainha cortada a fio (raw hem) para um look mais agressivo. Ombros caídos e mangas extra longas."
-            },
-            {
-                id: 8,
-                title: "Archive Washed",
-                price: "€82.00",
-                image: "https://images.unsplash.com/photo-1578587017763-9233113f84ca?q=80&w=1888&auto=format&fit=crop", 
-                tag: "Vintage",
-                desc: "Processo de lavagem de 4 horas para atingir o preto 'carvão' perfeito. Look vintage autêntico."
+            if (type === 'hover') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(50, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+            } else if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            } else if (type === 'print') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(200, audioCtx.currentTime + 1.0);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.0);
             }
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.0);
+        }
+
+        /* --- 2. LOADER --- */
+        window.addEventListener('load', () => {
+            let percent = 0;
+            const loaderText = document.getElementById('loader-percent');
+            const enterBtn = document.getElementById('enter-btn');
+            const loader = document.getElementById('loader');
+
+            const int = setInterval(() => {
+                percent += Math.floor(Math.random() * 5) + 1;
+                if(percent > 100) percent = 100;
+                loaderText.innerText = percent + '%';
+                if(percent === 100) {
+                    clearInterval(int);
+                    document.getElementById('loader-text').innerText = "SYSTEM READY";
+                    enterBtn.classList.remove('hidden');
+                }
+            }, 50);
+
+            enterBtn.addEventListener('click', () => {
+                soundEnabled = true;
+                audioCtx.resume();
+                document.getElementById('sound-indicator').style.opacity = '1';
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 800);
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('active');
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.manifesto-line').forEach(el => observer.observe(el));
+                playSound('click');
+            });
+        });
+
+        /* --- 3. MOBILE MENU --- */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if(menu.classList.contains('-translate-x-full')) {
+                menu.classList.remove('-translate-x-full');
+            } else {
+                menu.classList.add('-translate-x-full');
+            }
+            playSound('click');
+        }
+
+        /* --- 4. GAMIFICATION (Birds) --- */
+        let birdsFound = 0;
+        function foundBird(el) {
+            if(el.style.opacity === '0.5') return;
+            birdsFound++;
+            el.style.opacity = '1'; el.style.filter = 'none'; el.style.transform = 'scale(1.5) rotate(10deg)';
+            playSound('click');
+            alert(`SECRET FOUND: ${birdsFound}/3`);
+            el.style.pointerEvents = 'none';
+            if(birdsFound === 3) setTimeout(() => document.getElementById('rewardModal').classList.remove('hidden'), 500);
+        }
+
+        /* --- 5. STICKER BOMBING --- */
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.classList.contains('secret-bird') || e.target.closest('#productModal')) return;
+
+            const stickers = ['REAL.', 'logo.jpeg', '★', '⛓', '🖤', '€', '☠'];
+            const randomSticker = stickers[Math.floor(Math.random() * stickers.length)];
+            const el = document.createElement('div');
+            el.classList.add('sticker');
+            el.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
+            
+            if(randomSticker === 'logo.jpeg') {
+                el.innerHTML = `<img src="logo.jpeg" style="width: 40px; filter: invert(1);">`;
+            } else {
+                el.innerText = randomSticker;
+                el.style.fontFamily = 'Syne';
+                el.style.fontWeight = '800';
+                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                el.style.color = Math.random() > 0.5 ? '#dcb178' : 'white';
+            }
+            el.style.left = e.pageX + 'px';
+            el.style.top = e.pageY + 'px';
+            el.style.animation = 'stamp 0.15s ease-out forwards';
+            
+            document.body.appendChild(el);
+            playSound('click');
+            
+            const allStickers = document.querySelectorAll('.sticker');
+            if(allStickers.length > 15) allStickers[0].remove();
+        });
+
+        /* --- 6. X-RAY MODE (Long Press) --- */
+        let pressTimer;
+        document.addEventListener('mousedown', () => { pressTimer = setTimeout(() => { document.documentElement.classList.add('xray-mode'); playSound('hover'); }, 500); });
+        document.addEventListener('mouseup', () => { clearTimeout(pressTimer); document.documentElement.classList.remove('xray-mode'); });
+        document.addEventListener('touchstart', () => { pressTimer = setTimeout(() => document.documentElement.classList.add('xray-mode'), 500); });
+        document.addEventListener('touchend', () => { clearTimeout(pressTimer); document.documentElement.classList.remove('xray-mode'); });
+
+        /* --- 7. RECEIPT ANIMATION --- */
+        function triggerReceipt() {
+            playSound('print');
+            const title = document.getElementById('modalTitle').innerText;
+            const price = document.getElementById('modalPrice').innerText;
+            const date = new Date().toLocaleTimeString();
+            const id = Math.floor(Math.random() * 999999);
+            const receiptHTML = `
+                <div class="receipt-paper p-4 font-mono text-xs text-black animate-receipt-slide mb-4 mx-4 md:mx-0">
+                    <div class="text-center font-bold mb-2">REAL. RECEIPT</div>
+                    <div class="border-b border-black border-dashed mb-2"></div>
+                    <div class="flex justify-between"><span>ID:</span><span>#${id}</span></div>
+                    <div class="flex justify-between"><span>TIME:</span><span>${date}</span></div>
+                    <div class="border-b border-black border-dashed my-2"></div>
+                    <div class="font-bold mb-1">${title}</div>
+                    <div class="flex justify-between font-bold"><span>TOTAL</span><span>${price}</span></div>
+                    <div class="border-b border-black border-dashed my-2"></div>
+                    <div class="text-center text-[10px]">THANK YOU FOR<br>NOT BEING FAKE.</div>
+                    <div class="text-center mt-2 text-[8px]">* * * * *</div>
+                </div>
+            `;
+            const container = document.getElementById('receipt-area');
+            container.innerHTML = receiptHTML + container.innerHTML;
+            closeModal();
+        }
+
+        /* --- 8. DATA & MODALS --- */
+        const products = [
+            { id: 1, title: "Broken Heart", price: "€75.00", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1887&auto=format&fit=crop", tag: "Top", desc: "Heavyweight 450GSM cotton." },
+            { id: 2, title: "Ghost Zip", price: "€85.00", image: "https://images.unsplash.com/photo-1551804130-97cc17513d78?q=80&w=1964&auto=format&fit=crop", tag: "New", desc: "Acid wash finish." },
+            { id: 3, title: "Real Crewneck", price: "€65.00", image: "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?q=80&w=2072&auto=format&fit=crop", tag: "Base", desc: "Essential layering piece." },
+            { id: 4, title: "Destroyed", price: "€80.00", image: "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?q=80&w=1887&auto=format&fit=crop", tag: "Ltd", desc: "Hand-torn details." },
+            { id: 5, title: "Midnight", price: "€90.00", image: "https://images.unsplash.com/photo-1515347619252-60a6bf4fffce?q=80&w=1925&auto=format&fit=crop", tag: "Warm", desc: "Double-lined hood." },
+            { id: 6, title: "No Signal", price: "€78.00", image: "https://images.unsplash.com/photo-1509942774463-acf339cf87d5?q=80&w=1887&auto=format&fit=crop", tag: "Art", desc: "High-density puff print." },
+            { id: 7, title: "Raw Edge", price: "€70.00", image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop", tag: "Crop", desc: "Raw-cut hem finish." },
+            { id: 8, title: "Archive", price: "€82.00", image: "https://images.unsplash.com/photo-1578587017763-9233113f84ca?q=80&w=1888&auto=format&fit=crop", tag: "Vtg", desc: "Manual vintage wash." }
         ];
 
-        // --- RENDERIZAR GRID ---
         const grid = document.getElementById('product-grid');
-        products.forEach(product => {
-            const html = `
-                <div class="group cursor-none hoverable" onclick="openModal(${product.id})">
-                    <div class="relative overflow-hidden bg-real-gray aspect-[3/4] mb-5 border border-white/5">
-                        <span class="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white border border-white/20 text-[9px] font-bold px-2 py-1 uppercase z-10">${product.tag}</span>
-                        <img src="${product.image}" class="w-full h-full object-cover transition duration-700 transform group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="${product.title}">
-                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                            <span class="bg-real-gold text-black font-bold uppercase text-xs px-6 py-3 tracking-widest transform translate-y-4 group-hover:translate-y-0 transition duration-300">Quick View</span>
+        products.forEach(p => {
+            grid.innerHTML += `
+                <div class="group cursor-none hoverable" onclick="openModal(${p.id})">
+                    <div class="relative overflow-hidden bg-real-gray aspect-[3/4] mb-4 border border-white/5">
+                        <span class="absolute top-2 left-2 bg-black/50 text-white text-[9px] font-bold px-2 py-1 uppercase z-10 border border-white/10">${p.tag}</span>
+                        <img src="${p.image}" class="product-img w-full h-full object-cover opacity-80" alt="${p.title}">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="bg-real-gold text-black text-[10px] font-bold px-4 py-2 uppercase tracking-widest">View</span>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <h3 class="font-bold text-base uppercase tracking-wide group-hover:text-real-gold transition">${product.title}</h3>
-                        <div class="flex justify-between items-center">
-                            <p class="text-gray-500 text-xs">Heavyweight Cotton</p>
-                            <span class="font-mono text-sm text-white">${product.price}</span>
-                        </div>
+                    <div class="flex justify-between items-start px-1">
+                        <h3 class="font-bold text-sm uppercase tracking-wider group-hover:text-real-gold transition">${p.title}</h3>
+                        <span class="font-mono text-xs text-gray-400">${p.price}</span>
                     </div>
                 </div>
             `;
-            grid.innerHTML += html;
         });
 
-        // --- MODAL & COUNTDOWN (Mesma lógica) ---
         function openModal(id) {
-            const product = products.find(p => p.id === id);
-            if(!product) return;
-            document.getElementById('modalImg').src = product.image;
-            document.getElementById('modalTag').innerText = product.tag;
-            document.getElementById('modalTitle').innerText = product.title;
-            document.getElementById('modalPrice').innerText = product.price;
-            document.getElementById('modalDesc').innerText = product.desc;
-            const modal = document.getElementById('productModal');
-            modal.classList.remove('hidden');
-            document.body.classList.add('modal-open');
+            const p = products.find(x => x.id === id);
+            document.getElementById('modalImg').src = p.image;
+            document.getElementById('modalTag').innerText = p.tag;
+            document.getElementById('modalTitle').innerText = p.title;
+            document.getElementById('modalPrice').innerText = p.price;
+            document.getElementById('modalDesc').innerText = p.desc;
+            document.getElementById('productModal').classList.remove('hidden');
+            playSound('click');
         }
+        function closeModal() { document.getElementById('productModal').classList.add('hidden'); }
 
-        function closeModal() {
-            const modal = document.getElementById('productModal');
-            modal.classList.add('hidden');
-            document.body.classList.remove('modal-open');
-        }
+        // Interactions & Cursor
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+        window.addEventListener("mousemove", (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
+        });
+        document.querySelectorAll('.hoverable, .group').forEach(el => {
+            el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); playSound('hover'); });
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            el.addEventListener('click', () => playSound('click'));
+        });
 
-        document.addEventListener('keydown', function(event) { if (event.key === "Escape") closeModal(); });
-
-        const tenDaysFromNow = new Date().getTime() + (10 * 24 * 60 * 60 * 1000); 
-        setInterval(function() {
-            const now = new Date().getTime();
-            const distance = tenDaysFromNow - now;
-            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        // Countdown & ID
+        const end = new Date().getTime() + (10 * 86400000);
+        setInterval(() => {
+            const now = new Date().getTime(); const d = end - now;
+            document.getElementById("days").innerText = Math.floor(d / 86400000).toString().padStart(2,'0');
+            document.getElementById("hours").innerText = Math.floor((d % 86400000) / 3600000).toString().padStart(2,'0');
+            document.getElementById("minutes").innerText = Math.floor((d % 3600000) / 60000).toString().padStart(2,'0');
+            document.getElementById("seconds").innerText = Math.floor((d % 60000) / 1000).toString().padStart(2,'0');
         }, 1000);
+        const memberId = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('member-id').innerText = memberId;
+        document.getElementById('mobile-member-id').innerText = memberId;
     </script>
 </body>
+</html>
+
 </html>
