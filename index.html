@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>REAL. | Love in Modern Times</title>
+    <title>NULIFIED | Love in Modern Times</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -59,13 +59,13 @@
 
     <style>
         /* --- CORE SETTINGS --- */
-        body { cursor: none; background-color: #050505; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body { cursor: none; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; }
         
         /* MOBILE OPTIMIZATIONS */
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto; }
             .cursor-dot, .cursor-outline { display: none !important; }
-            .product-img { filter: grayscale(0%); } /* Mostra cor logo no mobile */
+            .product-img { filter: grayscale(0%); }
         }
 
         /* X-RAY MODE */
@@ -73,28 +73,13 @@
         html { transition: filter 0.2s ease; }
 
         /* --- CURSOR --- */
-        .cursor-dot {
-            width: 4px; height: 4px; background-color: #dcb178;
-            border-radius: 50%; position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 1px solid rgba(220, 177, 120, 0.3);
-            border-radius: 50%; position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
-            transition: width 0.1s, height 0.1s;
-        }
-        body.hovering .cursor-outline {
-            width: 60px; height: 60px; background-color: rgba(220, 177, 120, 0.1);
-            border-color: #dcb178; mix-blend-mode: exclusion;
-        }
+        .cursor-dot { width: 4px; height: 4px; background-color: #dcb178; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(220, 177, 120, 0.3); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9998; transition: width 0.1s, height 0.1s; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(220, 177, 120, 0.1); border-color: #dcb178; mix-blend-mode: exclusion; }
 
         /* --- STROBE HOVER --- */
         .product-img { transition: transform 0.5s ease; filter: grayscale(100%); }
-        .group:hover .product-img {
-            animation: flashZoom 0.6s infinite alternate;
-            filter: grayscale(0%) contrast(120%);
-        }
+        .group:hover .product-img { animation: flashZoom 0.6s infinite alternate; filter: grayscale(0%) contrast(120%); }
         @keyframes flashZoom {
             0% { transform: scale(1); filter: grayscale(0%); }
             25% { transform: scale(1.02); filter: invert(10%); }
@@ -103,49 +88,35 @@
         }
 
         /* --- SCROLLYTELLING --- */
-        .manifesto-line {
-            opacity: 0.1; transform: translateY(20px); filter: blur(4px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .manifesto-line { opacity: 0.1; transform: translateY(20px); filter: blur(4px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .manifesto-line.active { opacity: 1; transform: translateY(0); filter: blur(0); color: white; }
 
         /* --- STICKERS --- */
-        .sticker {
-            position: absolute; pointer-events: none; z-index: 10;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
-        }
+        .sticker { position: absolute; pointer-events: none; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 
         /* --- RECEIPT (TICKET) --- */
-        .receipt-paper {
-            background: #fff;
-            background-image: linear-gradient(#eee .1rem, transparent .1rem);
-            background-size: 100% 1.2rem;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
-            mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
-        }
+        .receipt-paper { background: #fff; background-image: linear-gradient(#eee .1rem, transparent .1rem); background-size: 100% 1.2rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%); }
 
         /* --- UTILS --- */
         #loader { transition: opacity 0.8s ease-out, visibility 0.8s; }
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-            background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.07; z-index: 50;
-        }
-        .secret-bird {
-            position: absolute; width: 30px; opacity: 0; cursor: pointer; z-index: 40;
-            transition: opacity 0.3s; filter: invert(1);
-        }
-        .secret-bird:hover { opacity: 1; }
-        .glitch-reward { animation: glitch 0.3s infinite; }
+        .noise-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.07; z-index: 50; }
+        .secret-obj { position: absolute; font-family: 'Syne', sans-serif; font-weight: 800; color: #dcb178; opacity: 0; cursor: pointer; z-index: 40; font-size: 20px; transition: opacity 0.3s; }
+        .secret-obj:hover { opacity: 1; }
         
+        .glitch-reward { animation: glitch 0.3s infinite; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #dcb178; }
-
-        /* MOBILE MENU TRANSITION */
         #mobile-menu { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .text-logo { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.05em; }
     </style>
 </head>
-<body class="bg-real-black text-white antialiased overflow-x-hidden">
+<body class="text-white antialiased overflow-x-hidden bg-black">
+
+    <div class="fixed inset-0 z-[-2] bg-black flex items-center justify-center p-6">
+        <img src="cupido.jpg" class="w-auto h-auto max-w-[80%] max-h-[80%] object-contain opacity-50 mix-blend-screen" alt="Neon Cupid Background">
+    </div>
+    <div class="fixed inset-0 z-[-1] bg-black/40 pointer-events-none"></div>
 
     <div id="sound-indicator" class="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-[9px] font-mono text-gray-600 uppercase opacity-0 transition duration-1000 pointer-events-none">
         <span>Audio System</span>
@@ -160,14 +131,13 @@
     <div class="cursor-outline" id="cursor-outline"></div>
     <div class="noise-overlay"></div>
 
-    <div id="receipt-area" class="fixed top-0 right-0 md:right-10 left-0 md:left-auto z-[250] w-full md:w-64 pointer-events-none flex justify-center md:block">
-        </div>
+    <div id="receipt-area" class="fixed top-0 right-0 md:right-10 left-0 md:left-auto z-[250] w-full md:w-64 pointer-events-none flex justify-center md:block"></div>
 
     <div id="loader" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center">
         <div class="relative">
-            <img src="logo.jpeg" class="h-20 animate-pulse mb-6 opacity-80" alt="Loading">
+            <h1 class="text-logo text-8xl md:text-9xl text-white animate-pulse">NULIFIED</h1>
         </div>
-        <div class="font-mono text-real-gold text-[10px] tracking-[0.5em] uppercase flex flex-col items-center gap-2">
+        <div class="font-mono text-real-gold text-[10px] tracking-[0.5em] uppercase flex flex-col items-center gap-2 mt-4">
             <span id="loader-text">Initializing System</span>
             <span id="loader-percent">0%</span>
         </div>
@@ -178,9 +148,7 @@
 
     <nav class="fixed w-full z-40 top-0 left-0 px-6 py-4 flex justify-between items-center mix-blend-difference bg-transparent backdrop-blur-[2px]">
         <div class="w-1/3 md:hidden">
-            <button onclick="toggleMobileMenu()" class="text-xl text-real-gold hoverable p-2">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <button onclick="toggleMobileMenu()" class="text-xl text-real-gold hoverable p-2"><i class="fa-solid fa-bars"></i></button>
         </div>
 
         <div class="hidden md:flex w-1/3 gap-8 text-[10px] uppercase tracking-[0.25em] font-bold text-gray-400">
@@ -189,8 +157,8 @@
         </div>
         
         <div class="w-1/3 flex justify-center">
-            <a href="#" class="hoverable group">
-                <img src="logo.jpeg" class="h-12 md:h-16 object-contain drop-shadow-[0_0_10px_rgba(220,177,120,0.5)]" alt="REAL.">
+            <a href="#" class="hoverable group text-center">
+                <h1 class="text-logo text-4xl md:text-5xl text-white group-hover:text-real-gold transition duration-300">NULIFIED</h1>
             </a>
         </div>
         
@@ -205,9 +173,7 @@
     </nav>
 
     <div id="mobile-menu" class="fixed inset-0 z-[45] bg-black transform -translate-x-full flex flex-col items-center justify-center gap-10">
-        <button onclick="toggleMobileMenu()" class="absolute top-6 left-6 text-real-gold text-2xl p-2">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+        <button onclick="toggleMobileMenu()" class="absolute top-6 left-6 text-real-gold text-2xl p-2"><i class="fa-solid fa-xmark"></i></button>
         <a href="#drop" onclick="toggleMobileMenu()" class="font-display text-4xl text-white hover:text-real-gold uppercase">Collection</a>
         <a href="#about" onclick="toggleMobileMenu()" class="font-display text-4xl text-white hover:text-real-gold uppercase">Manifesto</a>
         <div class="text-center mt-10">
@@ -216,14 +182,11 @@
         </div>
     </div>
 
-    <img src="logo.jpeg" class="secret-bird top-[20%] left-[10%]" onclick="foundBird(this)">
+    <div class="secret-obj top-[20%] left-[10%]" onclick="foundSecret(this)">®</div>
 
-    <header class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1571455786673-9d9d6c194f90?q=80&w=2070&auto=format&fit=crop" 
-                 class="w-full h-full object-cover opacity-30 grayscale contrast-125 scale-105 animate-[pulse_10s_infinite]" alt="Background">
-            <div class="absolute inset-0 bg-gradient-to-t from-real-black via-real-black/60 to-transparent"></div>
-        </div>
+    <header class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-transparent">
+        
+        <div class="absolute inset-0 z-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
 
         <div class="relative z-10 text-center px-4 mt-10">
             <div class="inline-flex items-center gap-2 border border-white/10 px-4 py-1 rounded-full bg-black/50 mb-8 backdrop-blur-md">
@@ -238,28 +201,28 @@
                 <div class="flex flex-col items-center"><span id="seconds" class="text-real-gold">00</span><span class="text-[9px] font-sans text-gray-600 mt-2 tracking-widest">SECS</span></div>
             </div>
 
-            <a href="#drop" class="hoverable relative inline-block group border border-white/30 px-10 py-4 overflow-hidden" data-sound="click">
+            <a href="#drop" class="hoverable relative inline-block group border border-white/30 px-10 py-4 overflow-hidden bg-black/40 backdrop-blur-sm" data-sound="click">
                 <span class="absolute inset-0 bg-real-gold transform translate-y-full group-hover:translate-y-0 transition-transform duration-200 ease-out"></span>
                 <span class="relative font-bold text-[10px] tracking-[0.3em] uppercase group-hover:text-black transition-colors duration-200">Enter The Void</span>
             </a>
-            <p class="mt-4 text-[8px] uppercase tracking-widest text-gray-600 animate-pulse hidden md:block">( Long Press for X-Ray Vision )</p>
+            <p class="mt-4 text-[8px] uppercase tracking-widest text-gray-400 animate-pulse hidden md:block drop-shadow-md">( Long Press for X-Ray Vision )</p>
         </div>
     </header>
 
     <section class="bg-real-gold text-black py-3 border-y border-black overflow-hidden relative z-20 -rotate-1 scale-[1.01]">
         <div class="marquee-container font-display text-4xl md:text-6xl font-black uppercase tracking-tighter">
             <div class="marquee-content animate-[scroll_20s_linear_infinite]">
-                Real. Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp; Real. Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp;
+                NULIFIED Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp; NULIFIED Chaos &nbsp;•&nbsp; Heavyweight &nbsp;•&nbsp; No Fakes &nbsp;•&nbsp; Modern Love &nbsp;•&nbsp;
             </div>
         </div>
     </section>
 
-    <section id="drop" class="py-24 px-6 max-w-[1600px] mx-auto min-h-screen relative">
-        <img src="logo.jpeg" class="secret-bird top-[50%] right-[5%]" onclick="foundBird(this)">
+    <section id="drop" class="py-24 px-6 max-w-[1600px] mx-auto min-h-screen relative bg-transparent">
+        <div class="secret-obj top-[50%] right-[5%]" onclick="foundSecret(this)">®</div>
 
-        <div class="flex justify-between items-end mb-20 border-b border-white/10 pb-6">
+        <div class="flex justify-between items-end mb-20 border-b border-white/10 pb-6 bg-black/40 backdrop-blur-sm p-4">
             <h2 class="font-display text-4xl md:text-6xl uppercase text-white">The Drop.</h2>
-            <p class="text-gray-500 text-[10px] uppercase tracking-widest text-right hidden md:block">
+            <p class="text-gray-400 text-[10px] uppercase tracking-widest text-right hidden md:block">
                 System: Ready<br>Stock: Low
             </p>
         </div>
@@ -268,43 +231,43 @@
             </div>
     </section>
 
-    <section id="about" class="py-40 px-6 bg-real-black relative overflow-hidden min-h-screen flex items-center justify-center">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-real-gray/20 via-black to-black opacity-50"></div>
+    <section id="about" class="py-40 px-6 relative overflow-hidden min-h-screen flex items-center justify-center bg-transparent">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-black/80 via-black/60 to-transparent pointer-events-none"></div>
         
-        <div class="max-w-4xl mx-auto relative z-10 text-center">
-            <img src="logo.jpeg" class="h-24 mx-auto mb-10 opacity-100 invert-0" alt="Bird">
+        <div class="max-w-4xl mx-auto relative z-10 text-center bg-black/40 backdrop-blur-sm p-10 border border-white/5">
+            <h2 class="text-logo text-[5vw] leading-none text-white/5 mx-auto mb-10 select-none">NULIFIED</h2>
             
             <h2 class="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-white mb-12">
                 LOVE IN <br><span class="text-real-gold">MODERN TIMES.</span>
             </h2>
             
-            <div class="space-y-8 font-sans text-lg md:text-xl leading-relaxed text-gray-400 max-w-3xl mx-auto reveal-text">
+            <div class="space-y-8 font-sans text-lg md:text-xl leading-relaxed text-gray-300 max-w-3xl mx-auto reveal-text drop-shadow-lg">
                 <p class="manifesto-line">We live in an era of strong Wi-Fi connections and weak human bonds.</p>
-                <p class="manifesto-line"><strong class="text-white">REAL.</strong> was born from this irony.</p>
-                <p class="manifesto-line">Our chained bird represents the freedom we seek but that the digital society denies us.</p>
-                <p class="manifesto-line text-real-gold font-bold uppercase tracking-[0.3em] text-sm pt-8 animate-pulse">BE REAL. FEEL REAL.</p>
+                <p class="manifesto-line"><strong class="text-white">NULIFIED</strong> was born from this irony.</p>
+                <p class="manifesto-line">The text logo represents the boldness we seek but that the digital society denies us.</p>
+                <p class="manifesto-line text-real-gold font-bold uppercase tracking-[0.3em] text-sm pt-8 animate-pulse">BE NULIFIED FEEL NULIFIED</p>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-white/10 bg-black pt-24 pb-10 px-6 relative">
-        <img src="logo.jpeg" class="secret-bird bottom-[20%] left-[50%]" onclick="foundBird(this)">
-        <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[8px] text-gray-800 uppercase tracking-widest w-full text-center">Tap background to mark territory</p>
+    <footer class="border-t border-white/10 pt-24 pb-10 px-6 relative bg-gradient-to-t from-black to-transparent">
+        <div class="secret-obj bottom-[20%] left-[50%]" onclick="foundSecret(this)">®</div>
+        <p class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[8px] text-gray-400 uppercase tracking-widest w-full text-center drop-shadow-md">Tap background to mark territory</p>
 
-        <div class="max-w-[1600px] mx-auto">
+        <div class="max-w-[1600px] mx-auto bg-black/60 backdrop-blur-md p-8 border border-white/5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
                 <h2 class="font-display text-6xl md:text-9xl font-black uppercase leading-[0.8] text-white tracking-tighter opacity-20 hover:opacity-100 transition duration-700 cursor-default">
                     The<br>Cult.
                 </h2>
                 <div class="flex flex-col justify-end">
                     <form class="flex border-b border-white/30 pb-4 group focus-within:border-real-gold transition hoverable">
-                        <input type="email" placeholder="JOIN THE LIST" class="bg-transparent w-full outline-none text-xl placeholder:text-gray-700 font-sans text-white uppercase cursor-none">
-                        <button type="submit" class="uppercase font-bold text-gray-500 group-focus-within:text-real-gold transition hoverable" data-sound="click">Submit</button>
+                        <input type="email" placeholder="JOIN THE LIST" class="bg-transparent w-full outline-none text-xl placeholder:text-gray-500 font-sans text-white uppercase cursor-none">
+                        <button type="submit" class="uppercase font-bold text-gray-400 group-focus-within:text-real-gold transition hoverable" data-sound="click">Submit</button>
                     </form>
                 </div>
             </div>
-            <div class="flex justify-between items-center text-[10px] uppercase font-bold tracking-[0.2em] text-gray-600">
-                <p>&copy; 2026 REAL. EST.</p>
+            <div class="flex justify-between items-center text-[10px] uppercase font-bold tracking-[0.2em] text-gray-500">
+                <p>&copy; 2026 NULIFIED EST.</p>
                 <div class="flex gap-6">
                     <a href="#" class="hover:text-real-gold transition hoverable" data-sound="hover">IG</a>
                     <a href="#" class="hover:text-real-gold transition hoverable" data-sound="hover">TK</a>
@@ -316,7 +279,7 @@
     <div id="rewardModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/90 backdrop-blur-md">
         <div class="text-center p-10 border border-real-gold bg-black mx-4">
             <h2 class="font-display text-4xl md:text-6xl text-real-gold mb-4 glitch-reward">UNLOCKED</h2>
-            <p class="text-gray-400 text-xs uppercase tracking-widest mb-6">You found the 3 birds. Here is your reward.</p>
+            <p class="text-gray-400 text-xs uppercase tracking-widest mb-6">You found the 3 hidden marks. Here is your reward.</p>
             <div class="bg-white text-black font-mono text-xl md:text-2xl font-bold py-4 px-8 mb-6 select-all">CODE: REAL30</div>
             <button onclick="document.getElementById('rewardModal').classList.add('hidden')" class="text-xs uppercase hover:text-real-gold underline hoverable">Close System</button>
         </div>
@@ -347,7 +310,6 @@
     </div>
 
     <script>
-        /* --- 1. AUDIO SYSTEM --- */
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let soundEnabled = false;
 
@@ -381,7 +343,6 @@
             osc.stop(audioCtx.currentTime + 1.0);
         }
 
-        /* --- 2. LOADER --- */
         window.addEventListener('load', () => {
             let percent = 0;
             const loaderText = document.getElementById('loader-percent');
@@ -415,7 +376,6 @@
             });
         });
 
-        /* --- 3. MOBILE MENU --- */
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             if(menu.classList.contains('-translate-x-full')) {
@@ -426,37 +386,33 @@
             playSound('click');
         }
 
-        /* --- 4. GAMIFICATION (Birds) --- */
-        let birdsFound = 0;
-        function foundBird(el) {
+        let secretsFound = 0;
+        function foundSecret(el) {
             if(el.style.opacity === '0.5') return;
-            birdsFound++;
-            el.style.opacity = '1'; el.style.filter = 'none'; el.style.transform = 'scale(1.5) rotate(10deg)';
+            secretsFound++;
+            el.style.opacity = '1'; el.style.filter = 'none'; el.style.transform = 'scale(1.5)';
             playSound('click');
-            alert(`SECRET FOUND: ${birdsFound}/3`);
+            alert(`SECRET FOUND: ${secretsFound}/3`);
             el.style.pointerEvents = 'none';
-            if(birdsFound === 3) setTimeout(() => document.getElementById('rewardModal').classList.remove('hidden'), 500);
+            if(secretsFound === 3) setTimeout(() => document.getElementById('rewardModal').classList.remove('hidden'), 500);
         }
 
-        /* --- 5. STICKER BOMBING --- */
         document.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('a') || e.target.classList.contains('secret-bird') || e.target.closest('#productModal')) return;
+            if (e.target.closest('button') || e.target.closest('a') || e.target.classList.contains('secret-obj') || e.target.closest('#productModal')) return;
 
-            const stickers = ['REAL.', 'logo.jpeg', '★', '⛓', '🖤', '€', '☠'];
+            // ADICIONADOS: ❤️, 💔, 💘, 💀, 🌹
+            const stickers = [ 'LOVE', '💔', '💘', '☠︎', '🌹','🖤',  ];
             const randomSticker = stickers[Math.floor(Math.random() * stickers.length)];
             const el = document.createElement('div');
             el.classList.add('sticker');
             el.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
             
-            if(randomSticker === 'logo.jpeg') {
-                el.innerHTML = `<img src="logo.jpeg" style="width: 40px; filter: invert(1);">`;
-            } else {
-                el.innerText = randomSticker;
-                el.style.fontFamily = 'Syne';
-                el.style.fontWeight = '800';
-                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                el.style.color = Math.random() > 0.5 ? '#dcb178' : 'white';
-            }
+            el.innerText = randomSticker;
+            el.style.fontFamily = 'Syne';
+            el.style.fontWeight = '800';
+            el.style.fontSize = (Math.random() * 30 + 15) + 'px'; 
+            el.style.color = Math.random() > 0.5 ? '#dcb178' : 'white';
+            
             el.style.left = e.pageX + 'px';
             el.style.top = e.pageY + 'px';
             el.style.animation = 'stamp 0.15s ease-out forwards';
@@ -468,14 +424,12 @@
             if(allStickers.length > 15) allStickers[0].remove();
         });
 
-        /* --- 6. X-RAY MODE (Long Press) --- */
         let pressTimer;
         document.addEventListener('mousedown', () => { pressTimer = setTimeout(() => { document.documentElement.classList.add('xray-mode'); playSound('hover'); }, 500); });
         document.addEventListener('mouseup', () => { clearTimeout(pressTimer); document.documentElement.classList.remove('xray-mode'); });
         document.addEventListener('touchstart', () => { pressTimer = setTimeout(() => document.documentElement.classList.add('xray-mode'), 500); });
         document.addEventListener('touchend', () => { clearTimeout(pressTimer); document.documentElement.classList.remove('xray-mode'); });
 
-        /* --- 7. RECEIPT ANIMATION --- */
         function triggerReceipt() {
             playSound('print');
             const title = document.getElementById('modalTitle').innerText;
@@ -484,7 +438,7 @@
             const id = Math.floor(Math.random() * 999999);
             const receiptHTML = `
                 <div class="receipt-paper p-4 font-mono text-xs text-black animate-receipt-slide mb-4 mx-4 md:mx-0">
-                    <div class="text-center font-bold mb-2">REAL. RECEIPT</div>
+                    <div class="text-center font-bold mb-2">NULIFIED RECEIPT</div>
                     <div class="border-b border-black border-dashed mb-2"></div>
                     <div class="flex justify-between"><span>ID:</span><span>#${id}</span></div>
                     <div class="flex justify-between"><span>TIME:</span><span>${date}</span></div>
@@ -501,7 +455,6 @@
             closeModal();
         }
 
-        /* --- 8. DATA & MODALS --- */
         const products = [
             { id: 1, title: "Broken Heart", price: "€75.00", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1887&auto=format&fit=crop", tag: "Top", desc: "Heavyweight 450GSM cotton." },
             { id: 2, title: "Ghost Zip", price: "€85.00", image: "https://images.unsplash.com/photo-1551804130-97cc17513d78?q=80&w=1964&auto=format&fit=crop", tag: "New", desc: "Acid wash finish." },
@@ -517,16 +470,16 @@
         products.forEach(p => {
             grid.innerHTML += `
                 <div class="group cursor-none hoverable" onclick="openModal(${p.id})">
-                    <div class="relative overflow-hidden bg-real-gray aspect-[3/4] mb-4 border border-white/5">
-                        <span class="absolute top-2 left-2 bg-black/50 text-white text-[9px] font-bold px-2 py-1 uppercase z-10 border border-white/10">${p.tag}</span>
+                    <div class="relative overflow-hidden bg-black/50 aspect-[3/4] mb-4 border border-white/5 backdrop-blur-sm">
+                        <span class="absolute top-2 left-2 bg-black/80 text-white text-[9px] font-bold px-2 py-1 uppercase z-10 border border-white/10">${p.tag}</span>
                         <img src="${p.image}" class="product-img w-full h-full object-cover opacity-80" alt="${p.title}">
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
                             <span class="bg-real-gold text-black text-[10px] font-bold px-4 py-2 uppercase tracking-widest">View</span>
                         </div>
                     </div>
-                    <div class="flex justify-between items-start px-1">
+                    <div class="flex justify-between items-start px-1 bg-black/20 p-2 rounded backdrop-blur-sm">
                         <h3 class="font-bold text-sm uppercase tracking-wider group-hover:text-real-gold transition">${p.title}</h3>
-                        <span class="font-mono text-xs text-gray-400">${p.price}</span>
+                        <span class="font-mono text-xs text-real-gold">${p.price}</span>
                     </div>
                 </div>
             `;
@@ -544,7 +497,6 @@
         }
         function closeModal() { document.getElementById('productModal').classList.add('hidden'); }
 
-        // Interactions & Cursor
         const cursorDot = document.getElementById("cursor-dot");
         const cursorOutline = document.getElementById("cursor-outline");
         window.addEventListener("mousemove", (e) => {
@@ -558,7 +510,6 @@
             el.addEventListener('click', () => playSound('click'));
         });
 
-        // Countdown & ID
         const end = new Date().getTime() + (10 * 86400000);
         setInterval(() => {
             const now = new Date().getTime(); const d = end - now;
